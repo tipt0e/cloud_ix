@@ -46,13 +46,11 @@ function kvm_domain_create($conn, $poolname, $domain, $img, $newip, $vcpus = NUL
     case "image-uno.qcow2":
         $oldip = 'doit';
 	break;
-    case "image-dos.qcow2":
-        $oldip = '192.168.62.54';
-        break;
+    /* XXX add more */
     }
     $kvmip = $newip;
 
-    $dnsconn = ssh2_connect('hydrogen', 22);
+    $dnsconn = ssh2_connect('is_your_dns_server', 22);
     ssh2_auth_pubkey_file($dnsconn, 'root', '/home/www/.ssh/id_rsa.pub', '/home/www/.ssh/id_rsa') or die("Could not AUTH");
     ssh2_exec($dnsconn, "sudo echo '$kvmip $domain.bytepimps.net $domain' >> /etc/hosts &");
     ssh2_exec($dnsconn, "systemctl restart dnsmasq");

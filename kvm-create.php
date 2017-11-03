@@ -9,13 +9,14 @@ function kvm_domain_create($conn, $poolname, $domain, $img, $newip, $vcpus = NUL
     echo "Setting up VM $domain\n";
     $xmldovol = shell_exec("sed 's/xmldummiez/$domain/g' /etc/libvirt/qemu/vol-doo.xml > /etc/libvirt/qemu/$domain-vol.xml");
     $xmldodom = shell_exec("sed 's/xmldummiez/$domain/g' /etc/libvirt/qemu/kvm-doo.xml > /etc/libvirt/qemu/$domain.xml");
-    echo "memory set is $mem\n";
     /* XXX need to figure out the underlying numa shit */
     $setmem = "";
     if ($mem) 
        $setmem = ($mem * 1024);
     else
        $setmem = (1024 * 1024);
+    echo "memory set is $mem\n";
+    /* XXX need to figure out the underlying numa shit */
     $xmldodom = shell_exec("perl -p -i -e 's/XxXxXxX/$setmem/g' /etc/libvirt/qemu/$domain.xml");
     $volxml = `cat /etc/libvirt/qemu/$domain-vol.xml`;
     $domxml = `cat /etc/libvirt/qemu/$domain.xml`;

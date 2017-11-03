@@ -62,7 +62,7 @@ function kvm_domain_create($conn, $poolname, $domain, $img, $newip, $vcpus = NUL
     ssh2_exec($sconn, "sudo su -c 'echo $domain > /etc/hostname'");
     ssh2_exec($sconn, "sudo echo '$kvmip      $domain.bytepimps.net $domain' >> /etc/hosts &");
     switch ($img) {
-    case "centos-7-like-type":
+    case "centos-7-like-type.qcow2":
         ssh2_exec($sconn, "sudo echo 'session    optional    pam_mkhomedir.so skel=/etc/skel umask=0077' >> /etc/pam.d/system-auth-ac");
         ssh2_exec($sconn, "sudo echo 'session    optional    pam_mkhomedir.so skel=/etc/skel umask=0077' >> /etc/pam.d/password-auth-ac");
         ssh2_exec($sconn, "sudo perl -p -i -e 's/$oldip/$kvmip/g' /etc/sysconfig/network-scripts/ifcfg-ens3");
